@@ -1,7 +1,26 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import todoIcon from '../assets/todo_icon.png'
+import TodoItems from './TodoItems'
 
 const Todo = () => {
+    const [currTask,setTask] = useState([])
+    const inputRef = useRef(null);
+    const add = () => {
+        const inputText = inputRef.current.value.trim();
+
+        if (inputText === "") {
+            return null;
+        }
+
+        const newTask = {
+            id: Date.now(),
+            text: inputText,
+            isCompleted: false,
+        }
+        setTask((prevTask) => [...prevTask, newTask])
+        inputRef.current.value = ""
+    }
+    
     return (
         <div className='bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl'>
             {/* Title      */}
@@ -11,11 +30,17 @@ const Todo = () => {
             </div>
             {/* input box */}
             <div className="flex items-center my-7 bg-gray-200 rounded-full">
-                <input className='bg-transparent border-0 outline-none flex-1 h-14 pl-6 pr-2 placeholder:text-slate-600' type="text" name="" placeholder='Enter Your Task' />
-                <button className='border-none rounded-full bg-orange-600 w-32 font-medium cursor-pointer h-14 text-lg text-white'>Add +</button>
+                <input ref={inputRef} className='bg-transparent border-0 outline-none flex-1 h-14 pl-6 pr-2 placeholder:text-slate-600' type="text" name="" placeholder='Enter Your Task' />
+                <button onClick={add} className='border-none rounded-full bg-orange-600 w-32 font-medium cursor-pointer h-14 text-lg text-white'>Add +</button>
             </div>
             {/* Task List */}
-            
+            <div>
+                {
+                    currTask.map((tasks, index) => {
+                        return <TodoItems key={index} task={tasks.text} />
+                    })
+                }
+            </div>
         </div>
     )
 }
