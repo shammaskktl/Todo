@@ -3,7 +3,7 @@ import todoIcon from '../assets/todo_icon.png'
 import TodoItems from './TodoItems'
 
 const Todo = () => {
-    const [currTask,setTask] = useState(localStorage.getItem("tasks")?JSON.parse(localStorage.getItem("tasks")):[])
+    const [currTask,setTask] = useState(localStorage.getItem("tasks")? JSON.parse(localStorage.getItem("tasks")):[])
     const inputRef = useRef(null);
     const add = () => {
         const inputText = inputRef.current.value.trim();
